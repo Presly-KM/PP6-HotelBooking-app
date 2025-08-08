@@ -5,6 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Layout from "./layouts/Layout";
+import Register from "./pages/Register";
 
 // Le fichier App.tsx est le point d'entrée de l'application React. Il configure les routes de l'application en utilisant React Router.
 const App = () => {
@@ -22,6 +23,8 @@ const App = () => {
          <Layout>
             <p>Search Page</p>            {/* Ici on utilise le composant Layout pour encapsuler la page de recherche. le <p> représente le children de notre Layout définie dans App.tsx */}
           </Layout>} />
+
+        <Route path="/register" element={<Layout> <Register /> </Layout>} /> {/* Ici on définit la route pour la page d'inscription. Le composant Register sera rendu lorsque l'utilisateur accède à cette route. */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
