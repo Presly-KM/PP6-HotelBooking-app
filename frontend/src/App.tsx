@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Register from "./pages/Register";
+import SignIn from "./pages/SignIn"; // Importation du composant SignIn
 
 // Le fichier App.tsx est le point d'entrée de l'application React. Il configure les routes de l'application en utilisant React Router.
 const App = () => {
@@ -25,6 +26,9 @@ const App = () => {
           </Layout>} />
 
         <Route path="/register" element={<Layout> <Register /> </Layout>} /> {/* Ici on définit la route pour la page d'inscription. Le composant Register sera rendu lorsque l'utilisateur accède à cette route. */}
+        <Route path="/sign-in" element={<Layout> <SignIn /> </Layout>} /> {/* Ici on définit la route pour la page de connexion. Le composant SignIn sera rendu lorsque l'utilisateur accède à cette route. */}
+        
+        {/* Redirection vers la page d'accueil si l'utilisateur accède à une route non définie */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
