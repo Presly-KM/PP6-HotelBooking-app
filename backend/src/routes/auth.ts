@@ -4,6 +4,7 @@ import { validationResult } from "express-validator"; // On importe validationRe
 import User from "../models/user"; // On importe le modèle User défini dans models/user.ts
 import bcrypt from "bcryptjs"; // On importe bcrypt pour le hachage des mots de passe
 import jwt from "jsonwebtoken"; // On importe le module jsonwebtoken pour la gestion des tokens JWT
+import verifyToken from "../middleware/auth";
 
 
 const router = express.Router(); // On crée un routeur Express pour gérer les routes liées à l'authentification
@@ -49,5 +50,10 @@ router.post("/login", [
         res.status(500).json({ message: "Something went wrong" }); // En cas d'erreur, on renvoie une erreur 500 avec un message
     }
 });
+
+router.get("/validate-token", verifyToken, (req: Request, res: Response) => { // On définit une route GET pour valider le token JWT
+    res.status(200).send({ userId: req.userId }); // Si le token est valide, on renvoie un statut 200 OK avec l'ID de l'utilisateur
+});
+
 
 export default router; // On exporte le routeur pour l'utiliser dans d'autres parties de l'application
