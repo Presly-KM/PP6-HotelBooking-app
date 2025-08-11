@@ -46,7 +46,7 @@ router.post("/register", [
         secure: process.env.NODE_ENV === "production", // Le cookie est sécurisé en production. Ainsi, il n'est pas envoyé sur des connexions non sécurisées
         maxAge: 86400000,                              // Le cookie expire après 1 jour (86400000 ms)
     });
-    return res.sendStatus(200)                         // On renvoie un statut 200 OK pour indiquer que l'enregistrement a réussi
+    return res.status(200).send({message:"User registered OK"})                         // On renvoie une réponse 200 avec un message de succès
 }  catch (error) {
     console.log(error);           // On log l'erreur dans la console pour le débogage
     res.status(500).send({ message: "Something went wrong" }); // En cas d'erreur, on renvoie une erreur 500 avec un message
