@@ -6,7 +6,7 @@ import userRoutes from "./routes/users"; // Importation des routes des utilisate
 import authRoutes from "./routes/auth"; // Importation des routes d'authentification
 import cookieParser from "cookie-parser"; // Importation de cookie-parser pour gérer les cookies 
 
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)  // Connexion à MongoDB en utilisant la chaîne de connexion stockée dans le fichier .env. On utilise "as string" pour indiquer à TypeScript que cette variable est une chaîne de caractères. Ainsi, on évite les erreurs de type si la variable n'est pas définie.
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(()=> console.log("Connected to database:", process.env.MONGODB_CONNECTION))  // Connexion à MongoDB en utilisant la chaîne de connexion stockée dans le fichier .env. On utilise "as string" pour indiquer à TypeScript que cette variable est une chaîne de caractères. Ainsi, on évite les erreurs de type si la variable n'est pas définie.
 
 const app = express(); // Création de l'application Express
 app.use(cookieParser()); // Middleware pour parser les cookies dans les requêtes. Cela permet d'accéder aux cookies dans req.cookies
