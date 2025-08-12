@@ -26,7 +26,7 @@ export const AppContextProvider = ({
         const [toast, setToast] = useState<ToastMessage | undefined>(undefined); // Ici on utilise useState pour gérer l'état du toast. On initialise le toast à undefined, ce qui signifie qu'il n'y a pas de toast affiché au départ. 
  
         const { isError } = useQuery( "validateToken", apiClient.validateToken, {  // Ici on utilise useQuery de react-query pour valider le token de l'utilisateur.
-            retry: false,                    // On ne réessaie pas la requête en cas d'erreur
+            retry: false,                                                          // On ne réessaie pas la requête en cas d'erreur
         });
   
    return (
