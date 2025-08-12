@@ -55,5 +55,10 @@ router.get("/validate-token", verifyToken, (req: Request, res: Response) => { //
     res.status(200).send({ userId: req.userId }); // Si le token est valide, on renvoie un statut 200 OK avec l'ID de l'utilisateur
 });
 
-
-export default router; // On exporte le routeur pour l'utiliser dans d'autres parties de l'application
+router.post("/logout", (req: Request, res: Response) => { // On définit une route POST pour la déconnexion des utilisateurs
+    res.cookie("auth_token", "", { 
+        expires: new Date(0), // On supprime le cookie "auth_token" en le définissant avec une date d'expiration passée
+    });
+    res.send();               // On renvoie une réponse vide pour indiquer que la déconnexion a réussi
+})
+export default router; // On exporte  le routeur pour l'utiliser dans d'autres parties de l'application
