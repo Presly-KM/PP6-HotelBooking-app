@@ -48,3 +48,14 @@ export const validateToken = async () => {              // Ici on définit la fo
 
     return response.json(); // Si la réponse est correcte, on retourne les données JSON renvoyées par le serveur. Cela peut inclure des informations sur l'utilisateur connecté, comme son ID.
 };
+
+export const signOut = async () => {                // Ici on définit la fonction signOut qui sera utilisée pour déconnecter l'utilisateur. Cette fonction sera appelée lorsque l'utilisateur souhaite se déconnecter de l'application.
+    const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+        credentials: "include",                        // Ici on indique que les cookies doivent être inclus dans la requête. Cela permet au serveur de reconnaître l'utilisateur et de gérer les sessions.
+        method: "POST",                                // Ici on spécifie que la méthode de la requête est POST. Cela indique au serveur que l'on souhaite effectuer une action (dans ce cas, déconnecter l'utilisateur).
+    });
+
+    if (!response.ok) {                               // Ici on vérifie si la réponse du serveur est correcte (statut HTTP 200-299). Si la réponse n'est pas correcte, cela signifie qu'il y a eu une erreur lors de la déconnexion.
+        throw new Error("Error during sign out");        // Si la réponse n'est pas correcte, on lance une erreur avec un message indiquant que la déconnexion a échoué.
+    }
+}
