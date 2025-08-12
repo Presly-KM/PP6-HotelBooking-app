@@ -3,6 +3,9 @@ import { useMutation } from "react-query"; // Importation de useMutation pour g�
 import * as apiClient from "../api-client"; // Importation du client API pour interagir avec le backend
 import { useAppContext } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom"; // Importation de useNavigate pour naviguer entre les pages
+import { useQueryClient } from "react-query"; // Importation de useQueryClient pour accéder au client de requêtes, ce qui permet de gérer les requêtes et les mutations
+
+
 
 export type RegisterFormData = {                                    // Ici on définit le type des données du formulaire d'inscription. Cela nous permet de typer les données que nous allons récupérer du formulaire. Ainsi, on s'assure que les données saisies par l'utilisateur correspondent aux types attendus.
     firstName: string;
@@ -13,6 +16,7 @@ export type RegisterFormData = {                                    // Ici on d�
 };
 
 const Register = () => {
+    const queryClient = useQueryClient(); // Ici on utilise useQueryClient de react-query pour accéder au client de requêtes. Cela permet de gérer les requêtes et les mutations dans l'application.
     const navigate = useNavigate(); // Ici on utilise useNavigate de react-router-dom pour naviguer entre les pages de l'application. Cela permet de rediriger l'utilisateur vers une autre page après une action, comme l'inscription.
     const {showToast} = useAppContext (); // Ici on utilise le contexte de l'application pour accéder à la fonction showToast. Cela permet d'afficher des messages de toast dans l'application, par exemple pour indiquer le succès ou l'échec de l'inscription.
     const { 
@@ -23,12 +27,12 @@ const Register = () => {
     } = useForm<RegisterFormData>();              // Ici on utilise le hook useForm de react-hook-form pour gérer le formulaire d'inscription. On spécifie le type RegisterFormData pour que les données du formulaire soient typées correctement. Le hook register est utilisé pour enregistrer les champs du formulaire.
     
     const mutation = useMutation(apiClient.register, {     // Ici on utilise useMutation de react-query pour gérer la soumission du formulaire d'inscription. On passe la fonction register du client API comme argument. Cela permet de gérer l'état de la mutation, comme le chargement, le succès et l'échec.
-        onSuccess: () => {
+        onSuccess: async () => {
             showToast({ 
                 message: "Registration Success!",
-                type: "SUCCESS", // Ici on gère le succès de la mutation. Si l'inscription réussit, on affiche un toast de succès avec le message "Registration Success!". Cela permet à l'utilisateur de savoir que son inscription a été effectuée avec succès.
-            });
-            navigate("/"); // Ici on redirige l'utilisateur vers la page d'accueil après une inscription réussie. Cela permet de naviguer vers une autre page de l'application, généralement la page d'accueil ou la page de connexion.
+                type: "SUCCESS"}); // Ici on gère le succès de la mutation. Si l'inscription réussit, on affiche un toast de succès avec le message "Registration Success!". Cela permet à l'utilisateur de savoir que son inscription a été effectuée avec succès.
+                await queryClient.invalidateQueries("validateToken"); // Ici on invalide la requête "validateToken" pour forcer une nouvelle validation du token après l'inscription. Cela permet de s'assurer que l'utilisateur est bien connecté après son inscription.
+                navigate("/"); // Ici on redirige l'utilisateur vers la page d'accueil après une inscription réussie. Cela permet de naviguer vers une autre page de l'application, généralement la page d'accueil ou la page de connexion.
         },
         onError: (error: Error) => {
             showToast({ message: error.message, type: "ERROR"});             // Ici on gère l'erreur en cas d'échec de la mutation. Si l'inscription échoue, on affiche le message d'erreur dans la console. Cela permet de savoir ce qui s'est mal passé lors de la soumission du formulaire.
