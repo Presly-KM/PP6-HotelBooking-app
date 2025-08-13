@@ -5,6 +5,7 @@ import mongoose from "mongoose";  // Importation de mongoose pour la connexion �
 import userRoutes from "./routes/users"; // Importation des routes des utilisateurs
 import authRoutes from "./routes/auth"; // Importation des routes d'authentification
 import cookieParser from "cookie-parser"; // Importation de cookie-parser pour gérer les cookies 
+import path from "path"; // Importation de path pour gérer les chemins de fichiers
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
 
@@ -17,6 +18,8 @@ app.use(cors({
     credentials: true,                // Ici on indique que les cookies doivent être inclus dans les requêtes. Cela permet au serveur de reconnaître l'utilisateur et de gérer les sessions.
 })                                    // Utilisation de CORS pour permettre les requêtes cross-origin c'est-à-dire que le frontend peut communiquer avec le backend. Par exemeple, si le frontend est sur http://localhost:3000 et le backend sur http://localhost:5000, CORS permet au frontend d'accéder aux ressources du backend.
 );
+app.use(express.static(path.join(__dirname, "../../frontend/dist"))); // Middleware pour servir les fichiers statiques du frontend. Ici, on utilise path.join pour construire le chemin vers le dossier dist du frontend. Cela permet de servir les fichiers statiques (HTML, CSS, JS) du frontend à partir du backend.
+
 app.use("/api/auth", authRoutes); // Importation des routes d'authentification. Ainsi, toutes les requêtes vers /api/auth seront gérées par le routeur authRoutes. En gros toutes les requetes qui viennent dans notre API avec le préfixe /api/auth seront gérées par les routes définies dans le fichier auth.ts (AuthRoutes).
 app.use("/api/users", userRoutes); // Importation des routes des utilisateurs. Ainsi, toutes les requêtes vers /api/users seront gérées par le routeur userRoutes. En gros toutes les requetes qui viennent dans notre API avec le préfixe /api/users seront gérées par les routes définies dans le fichier users.ts (UserRoutes).
 
