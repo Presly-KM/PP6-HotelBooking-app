@@ -1,7 +1,7 @@
 import type { RegisterFormData } from "./pages/Register";
 import type { SignInFormData } from "./pages/SignIn";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ""; // Ici on définit l'URL de base de l'API. On utilise une variable d'environnement pour permettre la configuration de l'URL en fonction de l'environnement (développement, production, etc.). Si la variable n'est pas définie, on utilise une chaîne vide par défaut. On fait cela pour éviter les erreurs si l'URL n'est pas configurée correctement et surtout pour le cas ou le backend et le frontend sont en bundle dans le même projet.
 
 export const register = async (formData: RegisterFormData) => {     // Ici on définit la fonction register qui prend en paramètre les données du formulaire d'inscription. Cette fonction sera utilisée pour envoyer les données au serveur lors de l'inscription d'un nouvel utilisateur.
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
