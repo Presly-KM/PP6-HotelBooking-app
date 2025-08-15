@@ -6,6 +6,13 @@ import userRoutes from "./routes/users"; // Importation des routes des utilisate
 import authRoutes from "./routes/auth"; // Importation des routes d'authentification
 import cookieParser from "cookie-parser"; // Importation de cookie-parser pour gérer les cookies 
 import path from "path"; // Importation de path pour gérer les chemins de fichiers
+import { v2 as cloudinary } from "cloudinary"; // Importation de cloudinary pour la gestion des images
+
+cloudinary.config({ // Configuration de Cloudinary avec les variables d'environnement
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
 
